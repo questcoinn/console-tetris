@@ -9,8 +9,8 @@ namespace tetris {
 
     class ConsoleHandler {
     public:
-        ConsoleHandler() {}
-        ~ConsoleHandler() {}
+        ConsoleHandler() = default;
+        ~ConsoleHandler() = default;
 
     public:
         void clear();
