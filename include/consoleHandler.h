@@ -1,3 +1,7 @@
+#include <string>
+#include <cstdio>
+#include "tetrisUtils.h"
+
 namespace tetris {
     enum HandlingCode {
         HANDLE_SUCCESS = 0,
@@ -9,12 +13,15 @@ namespace tetris {
 
     class ConsoleHandler {
     public:
-        ConsoleHandler() = default;
+        ConsoleHandler();
         ~ConsoleHandler() = default;
 
     public:
         void clear();
-        void write();
+        void write(std::string str, CellColor color = CellColor_UNSET);
         void getInputs(char stop, inputHandler h);
+
+    private:
+        void setColor(CellColor color);
     };
 }
