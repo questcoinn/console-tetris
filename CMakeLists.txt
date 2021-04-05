@@ -16,6 +16,7 @@ SET(OUTPUT_ELF
 )
 SET(SRC_FILES
     src/main.cpp
+    src/consoleHandler.cpp
 )
 
 # 공통 컴파일러
@@ -25,7 +26,7 @@ SET(CMAKE_CXX_COMPILER /usr/bin/g++)
 INCLUDE_DIRECTORIES(include)
 
 # 공통 컴파일 옵션, 링크 옵션
-ADD_COMPILE_OPTIONS(-Wall)
+ADD_COMPILE_OPTIONS(-Wall -std=c++17)
 # SET( CMAKE_EXE_LINKER_FLAGS "<링크_옵션> <링크_옵션> ..." )
 
 # 공통 링크 라이브러리 (-l)
