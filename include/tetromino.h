@@ -1,23 +1,62 @@
 #include <array>
+#include <memory>
+#include <random>
+#include <unordered_map>
 #include "tetrisUtils.h"
 
 namespace tetris {
-    enum BlockType {
-        I, J, L, O, S, T, Z
+    using uidist = std::uniform_int_distribution<int>;
+    using rotatingTetrominoArray = std::array<bool *, 4>;
+
+    enum TetrominoType {
+        TetrominoType_I = 0,
+        TetrominoType_J,
+        TetrominoType_L,
+        TetrominoType_O,
+        TetrominoType_S,
+        TetrominoType_T,
+        TetrominoType_Z
+    };
+    const int BLOCK_TYPE_SIZE = 7;
+
+    class TetrominoFactory {
+    public:
+        TetrominoFactory();
+        ~TetrominoFactory() = default;
+
+    public:
+        bool *get(TetrominoType type, int rotation);
+
+    private:
+        void setTetromino(TetrominoType type, int rotation, int pos1, int pos2, int pos3, int pos4);
+        void setTetrominos();
+
+    public:
+        std::unordered_map<TetrominoType, CellColor> typeColorMap;
+
+    private:
+        std::array<rotatingTetrominoArray, 7> tetrominos;
     };
 
     class Tetromino {
     public:
-        Tetromino(BlockType type, CellColor color);
-        ~Tetromino() = default;
+        Tetromino();
+        ~Tetromino();
 
     public:
+        void resetAsRandomType();
+        void set(TetrominoType type);
         void rotate();
 
     public:
-        BlockType type;
-        CellColor color;
         int rotation;
-        std::array<bool, 16> states;
+        CellColor color;
+        bool *pStates;
+
+    private:
+        TetrominoType type;
+        std::unique_ptr<TetrominoFactory> pFactory;
+        std::unique_ptr<std::mt19937> pGenerator;
+        std::unique_ptr<uidist> pDistribution;
     };
 }
