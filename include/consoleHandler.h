@@ -18,10 +18,10 @@ namespace tetris {
 
     public:
         void clear();
-        void write(std::string str, CellColor color = CellColor_UNSET);
+        void write(std::string str, Color color = Color_UNSET);
         void getInputs(char stop, inputHandler h);
 
     private:
-        void setColor(CellColor color);
+        void setColor(Color color);
     };
 }

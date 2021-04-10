@@ -32,7 +32,7 @@ namespace tetris {
         void setTetrominos();
 
     public:
-        std::unordered_map<TetrominoType, CellColor> typeColorMap;
+        std::unordered_map<TetrominoType, Color> typeColorMap;
 
     private:
         std::array<rotatingTetrominoArray, 7> tetrominos;
@@ -50,7 +50,7 @@ namespace tetris {
 
     public:
         int rotation;
-        CellColor color;
+        Color color;
         bool *pStates;
 
     private:

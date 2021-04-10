@@ -12,16 +12,16 @@ namespace tetris {
                 }
             }
         }
-        this->typeColorMap = std::unordered_map<TetrominoType, CellColor>();
+        this->typeColorMap = std::unordered_map<TetrominoType, Color>();
 
         this->setTetrominos();
-        this->typeColorMap[TetrominoType_I] = CellColor_CYAN;
-        this->typeColorMap[TetrominoType_J] = CellColor_BLUE;
-        this->typeColorMap[TetrominoType_L] = CellColor_ORANGE;
-        this->typeColorMap[TetrominoType_O] = CellColor_YELLOW;
-        this->typeColorMap[TetrominoType_S] = CellColor_GREEN;
-        this->typeColorMap[TetrominoType_T] = CellColor_PURPLE;
-        this->typeColorMap[TetrominoType_Z] = CellColor_RED;
+        this->typeColorMap[TetrominoType_I] = Color_CYAN;
+        this->typeColorMap[TetrominoType_J] = Color_BLUE;
+        this->typeColorMap[TetrominoType_L] = Color_ORANGE;
+        this->typeColorMap[TetrominoType_O] = Color_YELLOW;
+        this->typeColorMap[TetrominoType_S] = Color_GREEN;
+        this->typeColorMap[TetrominoType_T] = Color_PURPLE;
+        this->typeColorMap[TetrominoType_Z] = Color_RED;
     }
 
     bool *TetrominoFactory::get(TetrominoType type, int rotation) {
