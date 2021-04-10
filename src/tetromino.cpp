@@ -77,7 +77,7 @@ namespace tetris {
             rotation(0) {
         this->pStates = nullptr;
 
-        this->pFactory = std::unique_ptr<TetrominoFactory>();
+        this->pFactory = std::unique_ptr<TetrominoFactory>(new TetrominoFactory());
 
         std::random_device RandomDev;
         this->pGenerator = std::unique_ptr<std::mt19937>(new std::mt19937(RandomDev()));
@@ -100,7 +100,8 @@ namespace tetris {
     void Tetromino::set(TetrominoType type) {
         this->type = type;
         this->rotation = 0;
-        this->color = this->pFactory->typeColorMap[type];
+        auto foundColor = this->pFactory->typeColorMap.find(type);
+        this->color = foundColor != this->pFactory->typeColorMap.end() ? foundColor->second : Color_RESET;
         this->pStates = this->pFactory->get(type, 0);
     }
 
