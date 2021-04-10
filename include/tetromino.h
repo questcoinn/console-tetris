@@ -1,3 +1,6 @@
+#ifndef TETRIS_TETROMINO_H
+#define TETRIS_TETROMINO_H
+
 #include <array>
 #include <memory>
 #include <random>
@@ -60,3 +63,5 @@ namespace tetris {
         std::unique_ptr<uidist> pDistribution;
     };
 }
+
+#endif

@@ -1,3 +1,6 @@
+#ifndef TETRIS_CONSOLE_HANDLER_H
+#define TETRIS_CONSOLE_HANDLER_H
+
 #include <string>
 #include <cstdio>
 #include "tetrisUtils.h"
@@ -25,3 +28,5 @@ namespace tetris {
         void setColor(Color color);
     };
 }
+
+#endif

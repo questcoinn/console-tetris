@@ -1,3 +1,6 @@
+#ifndef TETRIS_UTILS_H
+#define TETRIS_UTILS_H
+
 #include <string>
 
 namespace tetris {
@@ -13,3 +16,5 @@ namespace tetris {
         Color_RED,
     };
 }
+
+#endif

@@ -1,3 +1,6 @@
+#ifndef TETRIS_BOARD_H
+#define TETRIS_BOARD_H
+
 #include <vector>
 #include "tetrisUtils.h"
 
@@ -11,13 +14,15 @@ namespace tetris {
         ~Board();
 
     public:
-        CellColor getCellState(int i, int j);
+        Color getCellState(int i, int j);
 
     public:
         int width;
         int height;
 
     private:
-        std::vector<CellColor> states;
+        std::vector<Color> states;
     };
 }
+
+#endif
