@@ -14,8 +14,8 @@ namespace tetris {
         ~Board() = default;
 
     public:
-        Color getCellColor(int i, int j) const;
-        void setCellColor(int i, int j, Color color);
+        Color getCellColor(int x, int y) const;
+        void setCellColor(int x, int y, Color color);
 
     public:
         int width;

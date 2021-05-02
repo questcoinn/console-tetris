@@ -6,21 +6,21 @@ namespace tetris {
             height(height),
             limit(width * height) {
         this->states = std::vector<Color>();
-        for(int i = 0; i < width * height; i++) {
+        for(int i = 0; i < this->limit; i++) {
             this->states.push_back(Color_RESET);
         }
     }
 
-    Color Board::getCellColor(int i, int j) const {
-        const int idx = i * this->width + j;
+    Color Board::getCellColor(int x, int y) const {
+        const int idx = y * this->width + x;
         if(idx < 0 || idx >= this->limit) {
             return Color_RESET;
         }
         return this->states.at(idx);
     }
 
-    void Board::setCellColor(int i, int j, Color color) {
-        const int idx = i * this->width + j;
+    void Board::setCellColor(int x, int y, Color color) {
+        const int idx = y * this->width + x;
         if(idx < 0 || idx >= this->limit) {
             return;
         }
