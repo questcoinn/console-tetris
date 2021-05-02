@@ -11,14 +11,16 @@ namespace tetris {
     class Board {
     public:
         Board(int width = MAX_BOARD_WIDTH, int height = MAX_BOARD_HEIGHT);
-        ~Board();
+        ~Board() = default;
 
     public:
-        Color getCellState(int i, int j);
+        Color getCellColor(int i, int j) const;
+        void setCellColor(int i, int j, Color color);
 
     public:
         int width;
         int height;
+        int limit;
 
     private:
         std::vector<Color> states;
