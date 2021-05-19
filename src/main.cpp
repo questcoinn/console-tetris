@@ -2,6 +2,7 @@
 # include <iostream>
 #endif
 #include <chrono>
+#include <string>
 #include <thread>
 
 #include <csignal>
@@ -31,37 +32,40 @@ int main() {
     tetris::Tetromino currentBlock;
     tetris::Tetromino nextBlock;
 
+    ch.clear();
     // game loop
     while(true) {
-        ch.clear();
+        // pre-process
+        const bool keepCurrentBlock = board.updateBoard(currentBlock);
 
-        // block test
-        nextBlock.resetAsRandomType();
-        currentBlock.set(nextBlock.type);
-
-        // (0, 3) offset으로 board에 set
-        bool isBlock = false;
+        // render
+        for(y = 0; y < height; ++y) {
+            ch.moveCursor(0, y);
+            for(x = 0; x < width; ++x) {
+                const tetris::Color color = board.getCellColor(x, y);
+                const std::string s = color != tetris::Color::RESET ? "o" : ".";
+                ch.write(s, color);
+            }
+        }
         for(y = 0; y < 4; ++y) {
             for(x = 0; x < 4; ++x) {
-                isBlock = currentBlock.pStates[y * 4 + x];
-                board.setCellColor(x + 3, y, isBlock ? currentBlock.color : tetris::Color_RESET);
+                if(currentBlock.pStates[y * 4 + x]) {
+                    ch.moveCursor(board.blockOffsetX + x, board.blockOffsetY + y);
+                    ch.write("o", currentBlock.color);
+                }
             }
         }
 
-        // draw
-        for(y = 0; y < height; ++y) {
-            for(x = 0; x < width; ++x) {
-                ch.write("o", board.getCellColor(x, y));
-            }
-            ch.write("\n", tetris::Color_RESET);
+        // post-process
+        if(!keepCurrentBlock) {
+            board.setCurrentBlock(currentBlock);
+            currentBlock.set(nextBlock.type);
+            nextBlock.resetAsRandomType();
         }
-        std::this_thread::sleep_for(1000ms);
+        ch.flushBuffer();
+        std::this_thread::sleep_for(300ms);
     }
 
-    // never reach!
-#ifdef DEBUG
-    std::cout << "How..?\n";
-#endif
     return 0;
 }
 
