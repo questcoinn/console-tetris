@@ -55,9 +55,9 @@ namespace tetris {
         int rotation;
         Color color;
         bool *pStates;
+        TetrominoType type;
 
     private:
-        TetrominoType type;
         std::unique_ptr<TetrominoFactory> pFactory;
         std::unique_ptr<std::mt19937> pGenerator;
         std::unique_ptr<uidist> pDistribution;

@@ -21,11 +21,13 @@ namespace tetris {
 
     public:
         void clear();
-        void write(std::string str, Color color = Color_UNSET);
-        void getInputs(char stop, inputHandler h);
+        void write(const std::string str, const Color color = Color::UNSET) const;
+        void getInputs(const char stop, const inputHandler h) const;
+        void moveCursor(const int x, const int y) const;
+        void flushBuffer();
 
     private:
-        void setColor(Color color);
+        void setColor(const Color color) const;
     };
 }
 

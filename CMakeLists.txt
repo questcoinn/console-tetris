@@ -17,6 +17,8 @@ SET(OUTPUT_ELF
 SET(SRC_FILES
     src/main.cpp
     src/consoleHandler.cpp
+    src/board.cpp
+    src/tetromino.cpp
 )
 
 # 공통 컴파일러

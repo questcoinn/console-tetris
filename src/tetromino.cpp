@@ -15,13 +15,13 @@ namespace tetris {
         this->typeColorMap = std::unordered_map<TetrominoType, Color>();
 
         this->setTetrominos();
-        this->typeColorMap[TetrominoType_I] = Color_CYAN;
-        this->typeColorMap[TetrominoType_J] = Color_BLUE;
-        this->typeColorMap[TetrominoType_L] = Color_ORANGE;
-        this->typeColorMap[TetrominoType_O] = Color_YELLOW;
-        this->typeColorMap[TetrominoType_S] = Color_GREEN;
-        this->typeColorMap[TetrominoType_T] = Color_PURPLE;
-        this->typeColorMap[TetrominoType_Z] = Color_RED;
+        this->typeColorMap[TetrominoType_I] = Color::CYAN;
+        this->typeColorMap[TetrominoType_J] = Color::BLUE;
+        this->typeColorMap[TetrominoType_L] = Color::ORANGE;
+        this->typeColorMap[TetrominoType_O] = Color::YELLOW;
+        this->typeColorMap[TetrominoType_S] = Color::GREEN;
+        this->typeColorMap[TetrominoType_T] = Color::PURPLE;
+        this->typeColorMap[TetrominoType_Z] = Color::RED;
     }
 
     bool *TetrominoFactory::get(TetrominoType type, int rotation) {
@@ -62,7 +62,7 @@ namespace tetris {
         this->setTetromino(TetrominoType_S, 2,  6,  7,  9, 10);
         this->setTetromino(TetrominoType_S, 3,  5,  9, 10, 14);
 
-        this->setTetromino(TetrominoType_T, 0, 10, 13, 14, 15);
+        this->setTetromino(TetrominoType_T, 0,  6,  9, 10, 11);
         this->setTetromino(TetrominoType_T, 1,  6,  9, 10, 14);
         this->setTetromino(TetrominoType_T, 2,  9, 10, 11, 14);
         this->setTetromino(TetrominoType_T, 3,  6, 10, 11, 14);
@@ -101,7 +101,7 @@ namespace tetris {
         this->type = type;
         this->rotation = 0;
         auto foundColor = this->pFactory->typeColorMap.find(type);
-        this->color = foundColor != this->pFactory->typeColorMap.end() ? foundColor->second : Color_RESET;
+        this->color = foundColor != this->pFactory->typeColorMap.end() ? foundColor->second : Color::RESET;
         this->pStates = this->pFactory->get(type, 0);
     }
 
