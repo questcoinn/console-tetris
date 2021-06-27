@@ -2,6 +2,7 @@
 # include <iostream>
 #endif
 #include <chrono>
+#include <future>
 #include <string>
 #include <thread>
 
@@ -12,12 +13,14 @@
 #include "board.h"
 #include "tetromino.h"
 
+#define STOP_CHAR   'x'
+
 using namespace std::chrono_literals;
 
-void sigintHandler(int signum);
+void handleSigint(const int signum);
 
 int main() {
-    std::signal(SIGINT, sigintHandler);
+    std::signal(SIGINT, handleSigint);
 
     // input handling thread => change state
 
@@ -32,9 +35,29 @@ int main() {
     tetris::Tetromino currentBlock;
     tetris::Tetromino nextBlock;
 
+    auto threadAsync = std::async(std::launch::async, [&](const char stop) -> void {
+        tetris::RawInputHandler rih(stop);
+        rih.run([&](const char key) -> tetris::HandlingCode {
+            tetris::HandlingCode status = tetris::HandlingCode::SUCCESS;
+            switch(key) {
+                case 'x':
+                    status = tetris::HandlingCode::EXIT;
+                    break;
+                case 'a':
+                    // todo: board::setBlockOffset()
+                    break;
+                case 'd':
+                    break;
+                default:
+                    status = tetris::HandlingCode::SUCCESS;
+            }
+            return status;
+        });
+    }, STOP_CHAR);
+
     ch.clear();
     // game loop
-    while(true) {
+    while(threadAsync.wait_for(0ms) == std::future_status::timeout) {
         // pre-process
         const bool keepCurrentBlock = board.updateBoard(currentBlock);
 
@@ -66,12 +89,10 @@ int main() {
         std::this_thread::sleep_for(300ms);
     }
 
+    threadAsync.get();
     return 0;
 }
 
-void sigintHandler(int signum) {
-#ifdef DEBUG
-    std::cout << "Interrupt signal (" << signum << ") received.\n";
-#endif
-    std::exit(signum);
+void handleSigint(const int signum) {
+    std::printf("\rPress '%c' to exit\n", STOP_CHAR);
 }

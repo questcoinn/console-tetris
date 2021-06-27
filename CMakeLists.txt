@@ -32,7 +32,7 @@ ADD_COMPILE_OPTIONS(-Wall -std=c++17)
 # SET( CMAKE_EXE_LINKER_FLAGS "<링크_옵션> <링크_옵션> ..." )
 
 # 공통 링크 라이브러리 (-l)
-# LINK_LIBRARIES( <라이브러리> <라이브러리> ... )
+LINK_LIBRARIES(pthread)
 
 # 공통 링크 라이브러리 디렉토리 (-L)
 # LINK_DIRECTORIES ( <디렉토리> <디렉토리> ... )
