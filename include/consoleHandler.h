@@ -1,18 +1,22 @@
 #ifndef TETRIS_CONSOLE_HANDLER_H
 #define TETRIS_CONSOLE_HANDLER_H
 
+#include <functional>
+#include <memory>
 #include <string>
 #include <cstdio>
+#include <termios.h>
 #include "tetrisUtils.h"
 
 namespace tetris {
     enum HandlingCode {
-        HANDLE_SUCCESS = 0,
-        HANDLE_FAIL,
-        HANDLE_UNSUPPORT_KEY,
+        SUCCESS = 0,
+        FAIL,
+        EXIT,
+        UNSUPPORT_KEY,
     };
 
-    typedef HandlingCode (*inputHandler)(char key);
+    typedef HandlingCode (*inputHandler)(const char key);
 
     class ConsoleHandler {
     public:
@@ -28,6 +32,21 @@ namespace tetris {
 
     private:
         void setColor(const Color color) const;
+    };
+
+    class RawInputHandler {
+    public:
+        RawInputHandler(const char stop);
+        ~RawInputHandler();
+
+    public:
+        void run(const std::function <HandlingCode(const char)> &f) const;
+        void restoreSetting() const;
+
+    private:
+        std::unique_ptr<termios> pOldt;
+        std::unique_ptr<termios> pNewt;
+        const char stop;
     };
 }
 

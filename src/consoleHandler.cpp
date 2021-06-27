@@ -1,3 +1,4 @@
+#include <unistd.h>
 #include "consoleHandler.h"
 
 namespace tetris {
@@ -45,7 +46,8 @@ namespace tetris {
     }
 
     void ConsoleHandler::getInputs(const char stop, const inputHandler h) const {
-        // TODO
+        // RawInputHandler rih(stop);
+        // rih.run(h);
     }
 
     void ConsoleHandler::moveCursor(const int x, const int y) const {
@@ -54,5 +56,35 @@ namespace tetris {
 
     void ConsoleHandler::flushBuffer() {
         std::fflush(stdout);
+    }
+
+    RawInputHandler::RawInputHandler(const char stop)
+        :pOldt(std::make_unique<termios>())
+        ,pNewt(std::make_unique<termios>())
+        ,stop(stop)
+    {
+        tcgetattr(STDIN_FILENO, this->pOldt.get());
+        *(this->pNewt.get()) = *(this->pOldt.get());
+        this->pNewt->c_lflag &= ~(ICANON);          
+        tcsetattr(STDIN_FILENO, TCSANOW, this->pNewt.get());
+    }
+
+    RawInputHandler::~RawInputHandler() {
+        this->restoreSetting();
+    }
+
+    void RawInputHandler::run(const std::function <HandlingCode(const char)> &f) const {
+        HandlingCode status = HandlingCode::SUCCESS;
+        char c = 0;
+        while(true) {
+            status = f(static_cast<char>(fgetc(stdin)));
+            if(status != HandlingCode::SUCCESS) {
+                break;
+            }
+        }
+    }
+
+    void RawInputHandler::restoreSetting() const {
+        tcsetattr(STDIN_FILENO, TCSANOW, this->pOldt.get());
     }
 }
